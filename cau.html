@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>换换 - 中国农业大学</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f7;
+        }
+        
+        .phone-frame {
+            width: 390px;
+            height: 844px;
+            border-radius: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            position: relative;
+            background: white;
+        }
+        
+        .status-bar {
+            height: 44px;
+            background: white;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        
+        .content-area {
+            height: calc(100% - 128px);
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+        
+        .tab-bar {
+            height: 84px;
+            background: white;
+            border-top: 1px solid #e5e5e7;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 10px;
+        }
+        
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            color: #8e8e93;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        .tab-item.active {
+            color: #ff6b35;
+        }
+        
+        .tab-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        
+        .publish-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b35, #ff9d6c);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+            margin-top: -20px;
+            font-size: 24px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        
+        .item-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .school-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            background-color: rgba(255, 107, 53, 0.1);
+            color: #ff6b35;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        
+        .bounty-tag {
+            background-color: #ff9500;
+            color: white;
+        }
+        
+        .qa-tag {
+            background-color: #4ecdc4;
+            color: white;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .content-area::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* 小红书式信息流 */
+        .feed-item {
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+        
+        .feed-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        
+        .feed-content {
+            padding: 12px 16px;
+        }
+        
+        .feed-user {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        
+        .feed-interactions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            color: #8e8e93;
+            font-size: 14px;
+        }
+        
+        .interaction-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .interaction-item i {
+            margin-right: 5px;
+        }
+        
+        /* 多界面展示 */
+        .interface-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .interface-title {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 600;
+            color: #333;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-8 bg-gray-100">
+    <h1 class="text-2xl font-bold mb-2 text-gray-800">换换 - 中国农业大学版本</h1>
+    <p class="text-gray-600 mb-6">专为农大学子设计的二手交易与校园社区平台</p>
+    
+    <div class="interface-container">
+        <!-- 首页 -->
+        <div>
+            <div class="phone-frame">
+                <div class="status-bar">
+                    <div class="time">14:28</div>
+                    <div class="status-icons flex space-x-1">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-three-quarters"></i>
+                    </div>
+                </div>
+                
+                <div class="content-area">
+                    <div id="home-page" class="page active px-4 pt-4">
+                        <!-- 导航栏 -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center">
+                                <div class="font-semibold text-[#ff6b35]">中国农业大学</div>
+                                <i class="fas fa-chevron-down ml-1 text-[#ff6b35] text-xs"></i>
+                            </div>
+                            <div class="relative flex-1 mx-4">
+                                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" placeholder="搜索商品、用户、问题..." class="w-full bg-gray-100 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none">
+                            </div>
+                            <div class="relative">
+                                <i class="far fa-comment text-xl"></i>
+                                <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 分类标签 -->
+                        <div class="flex space-x-6 mb-4 border-b pb-2">
+                            <div class="font-semibold text-[#ff6b35] border-b-2 border-[#ff6b35] pb-1">推荐</div>
+                            <div class="text-gray-500">闲置</div>
+                            <div class="text-gray-500">悬赏</div>
+                            <div class="text-gray-500">问答</div>
+                        </div>
+                        
+                        <!-- 小红书式信息流 -->
+                        <div class="space-y-4">
+                            <!-- 推荐内容1 -->
+                            <div class="feed-item">
+                                <img src="https://pic3.zhimg.com/v2-b7fa43a75104b4ffdc46cd8641b660b9_r.jpg?source=1940ef5c" alt="校园生活" class="feed-image">
+                                <div class="feed-content">
+                                    <div class="feed-user">
+                                        <img src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="用户头像" class="user-avatar">
+                                        <div>
+                                            <div class="font-semibold">农大美食墙</div>
+                                            <div class="text-xs text-gray-500">传播学 · 2小时前</div>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm mb-2">农大西校区食堂测评第三弹！今天尝试了二食堂新开的麻辣香锅，味道真的绝了，强烈推荐给喜欢吃辣的同学！</p>
+                                    <div class="flex flex-wrap gap-1 mb-2">
+                                        <span class="text-xs bg-gray-100 px-2 py-1 rounded">#农大美食</span>
+                                        <span class="text-xs bg-gray-100 px-2 py-1 rounded">#校园生活</span>
+                                        <span class="text-xs bg-gray-100 px-2 py-1 rounded">#食堂测评</span>
+                                    </div>
+                                    <div class="feed-interactions">
+                                        <div class="interaction-item">
+                                            <i class="far fa-heart"></i>
+                                            <span>128</span>
+                                        </div>
+                                        <div class="interaction-item">
+                                            <i class="far fa-comment"></i>
+                                            <span>36</span>
+                                        </div>
+                                        <div class="interaction-item">
+                                            <i class="far fa-bookmark"></i>
+                                            <span>收藏</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 推荐内容2 -->
+                            <div class="feed-item">
+                                <img src="https://qnam.smzdm.com/202206/11/62a4353ea97356115.jpg_e1080.jpg" alt="iPad" class="feed-image">
+                                <div class="feed-content">
+                                    <div class="feed-user">
+                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="用户头像" class="user-avatar">
+                                        <div>
+                                            <div class="font-semibold">传播E252 张三</div>
+                                            <div class="text-xs text-gray-500">计算机科学 · 3小时前</div>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm mb-2">出iPad Air 4，64G版本，带原装笔。因为换了新款所以出掉这个，用了不到一年，保护得很好，几乎全新。适合做笔记和看视频。</p>
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-red-500 font-bold text-lg">¥800</span>
+                                        <span class="school-tag">本校</span>
+                                    </div>
+                                    <div class="feed-interactions">
+                                        <div class="interaction-item">
+                                            <i class="far fa-heart"></i>
+                                            <span>56</span>
+                                        </div>
+                                        <div class="interaction-item">
+                                            <i class="far fa-comment"></i>
+                                            <span>12</span>
+                                        </div>
+                                        <div class="interaction-item">
+                                            <i class="far fa-bookmark"></i>
+                                            <span>收藏</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-bar">
+                    <div class="tab-item active">
+                        <i class="fas fa-home tab-icon"></i>
+                        <span>首页</span>
+                    </div>
+                    <div class="tab-item">
+                        <i class="fas fa-plus tab-icon"></i>
+                        <span>发布</span>
+                    </div>
+                    <div class="publish-btn">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="tab-item">
+                        <i class="far fa-comment tab-icon"></i>
+                        <span>消息</span>
+                    </div>
+                    <div class="tab-item">
+                        <i class="far fa-user tab-icon"></i>
+                        <span>我的</span>
+                    </div>
+                </div>
+            </div>
+            <div class="interface-title">首页 - 推荐栏目</div>
+        </div>
+        
+        <!-- 闲置页面 -->
+        <div>
+            <div class="phone-frame">
+                <div class="status-bar">
+                    <div class="time">14:28</div>
+                    <div class="status-icons flex space-x-1">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-three-quarters"></i>
+                    </div>
+                </div>
+                
+                <div class="content-area">
+                    <div id="item-page" class="page active px-4 pt-4">
+                        <!-- 导航栏 -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center">
+                                <div class="font-semibold text-[#ff6b35]">中国农业大学</div>
+                                <i class="fas fa-chevron-down ml-1 text-[#ff6b35] text-xs"></i>
+                            </div>
+                            <div class="relative flex-1 mx-4">
+                                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" placeholder="搜索闲置物品..." class="w-full bg-gray-100 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none">
+                            </div>
+                            <div class="relative">
+                                <i class="fas fa-filter text-xl text-gray-600"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- 分类标签 -->
+                        <div class="flex space-x-6 mb-4 border-b pb-2">
+                            <div class="text-gray-500">推荐</div>
+                            <div class="font-semibold text-[#ff6b35] border-b-2 border-[#ff6b35] pb-1">闲置</div>
+                            <div class="text-gray-500">悬赏</div>
+                            <div class="text-gray-500">问答</div>
+                        </div>
+                        
+                        <!-- 闲置物品分类 -->
+                        <div class="flex overflow-x-auto space-x-4 mb-4 pb-2">
+                            <div class="bg-gray-100 px-3 py-1 rounded-full text-sm whitespace-nowrap">全部</div>
+                            <div class="bg-[#ff6b35] text-white px-3 py-1 rounded-full text-sm whitespace-nowrap">数码电子</div>
+                            <div class="bg-gray-100 px-3 py-1 rounded-full text-sm whitespace-nowrap">图书资料</div>
+                            <div class="bg-gray-100 px-3 py-1 rounded-full text-sm whitespace-nowrap">服饰鞋包</div>
+                            <div class="bg-gray-100 px-3 py-1 rounded-full text-sm whitespace-nowrap">生活用品</div>
+                        </div>
+                        
+                        <!-- 闲置物品流 -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <!-- 闲置物品1 -->
+                            <div class="card">
+                                <img src="https://qnam.smzdm.com/202206/11/62a4353ea97356115.jpg_e1080.jpg" alt="iPad" class="item-image">
+                                <div class="p-3">
+                                    <h3 class="font-semibold text-sm mb-1 truncate">iPad Air 4 64G 带笔</h3>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-red-500 font-bold">¥800</span>
+                                        <span class="school-tag text-xs">本校</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 闲置物品2 -->
+                            <div class="card">
+                                <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="AJ篮球鞋" class="item-image">
+                                <div class="p-3">
+                                    <h3 class="font-semibold text-sm mb-1 truncate">AJ篮球鞋 42码</h3>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-red-500 font-bold">¥140</span>
+                                        <span class="school-tag text-xs">本校</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 闲置物品3 -->
+                            <div class="card">
+                                <img src="https://chiikawatoy.com/wp-content/uploads/2024/09/Chiikawa-Cute-Doll-4.jpg" alt="相机" class="item-image">
+                                <div class="p-3">
+                                    <h3 class="font-semibold text-sm mb-1 truncate">实习 小八求好心人收养 </h3>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-red-500 font-bold">¥5.2</span>
+                                        <span class="school-tag text-xs">本校</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 闲置物品4 -->
+                            <div class="card">
+                                <img src="https://img.alicdn.com/imgextra/i3/6000000004635/O1CN019avDGS1k6sbsdQi3k_!!6000000004635-0-tbvideo.jpg" alt="键盘" class="item-image">
+                                <div class="p-3">
+                                    <h3 class="font-semibold text-sm mb-1 truncate">衣架10个毕业出</h3>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-red-500 font-bold">¥1</span>
+                                        <span class="school-tag text-xs">同校</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-bar">
+                    <div class="tab-item">
+                        <i class="fas fa-home tab-icon"></i>
+                        <span>首页</span>
+                    </div>
+                    <div class="tab-item active">
+                        <i class="fas fa-box tab-icon"></i>
+                        <span>闲置</span>
+                    </div>
+                    <div class="publish-btn">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="tab-item">
+                        <i class="far fa-comment tab-icon"></i>
+                        <span>消息</span>
+                    </div>
+                    <div class="tab-item">
+                        <i class="far fa-user tab-icon"></i>
+                        <span>我的</span>
+                    </div>
+                </div>
+            </div>
+            <div class="interface-title">闲置栏目</div>
+        </div>
+        
+        <!-- 悬赏页面 -->
+        <div>
+            <div class="phone-frame">
+                <div class="status-bar">
+                    <div class="time">14:28</div>
+                    <div class="status-icons flex space-x-1">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-three-quarters"></i>
+                    </div>
+                </div>
+                
+                <div class="content-area">
+                    <div id="bounty-page" class="page active px-4 pt-4">
+                        <!-- 导航栏 -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center">
+                                <div class="font-semibold text-[#ff6b35]">中国农业大学</div>
+                                <i class="fas fa-chevron-down ml-1 text-[#ff6b35] text-xs"></i>
+                            </div>
+                            <div class="relative flex-1 mx-4">
+                                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" placeholder="搜索悬赏任务..." class="w-full bg-gray-100 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none">
+                            </div>
+                            <div class="relative">
+                                <i class="fas fa-plus text-xl text-gray-600"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- 分类标签 -->
+                        <div class="flex space-x-6 mb-4 border-b pb-2">
+                            <div class="text-gray-500">推荐</div>
+                            <div class="text-gray-500">闲置</div>
+                            <div class="font-semibold text-[#ff6b35] border-b-2 border-[#ff6b35] pb-1">悬赏</div>
+                            <div class="text-gray-500">问答</div>
+                        </div>
+                        
+                        <!-- 悬赏任务流 -->
+                        <div class="space-y-4">
+                            <!-- 悬赏任务1 -->
+                            <div class="card p-4 border-l-4 border-[#ff9500]">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="bounty-tag text-xs px-2 py-1 rounded">悬赏</span>
+                                    <span class="text-xs text-gray-500">剩余2小时</span>
+                                </div>
+                                <h3 class="font-semibold text-sm mb-2">求帮忙取快递，送到公主楼B座</h3>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-red-500 font-bold">¥5</span>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <img src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="用户头像" class="w-4 h-4 rounded-full mr-1">
+                                        <span>农大生活菌</span>
+                                        <span class="school-tag ml-1">本校</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 悬赏任务2 -->
+                            <div class="card p-4 border-l-4 border-[#ff9500]">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="bounty-tag text-xs px-2 py-1 rounded">悬赏</span>
+                                    <span class="text-xs text-gray-500">明天截止</span>
+                                </div>
+                                <h3 class="font-semibold text-sm mb-2">求代写高数作业，题目不难</h3>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-red-500 font-bold">¥30</span>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="用户头像" class="w-4 h-4 rounded-full mr-1">
+                                        <span>小明同学</span>
+                                        <span class="school-tag ml-1">本校</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 悬赏任务3 -->
+                            <div class="card p-4 border-l-4 border-[#ff9500]">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="bounty-tag text-xs px-2 py-1 rounded">悬赏</span>
+                                    <span class="text-xs text-gray-500">本周有效</span>
+                                </div>
+                                <h3 class="font-semibold text-sm mb-2">求农大校园摄影，需要专业设备</h3>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-red-500 font-bold">¥150</span>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="用户头像" class="w-4 h-4 rounded-full mr-1">
+                                        <span>张三</span>
+                                        <span class="school-tag ml-1">本校</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 悬赏任务4 -->
+                            <div class="card p-4 border-l-4 border-[#ff9500]">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="bounty-tag text-xs px-2 py-1 rounded">悬赏</span>
+                                    <span class="text-xs text-gray-500">长期有效</span>
+                                </div>
+                                <h3 class="font-semibold text-sm mb-2">烟台研究院找旅游搭子，仅限女生</h3>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-red-500 font-bold">¥0</span>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="用户头像" class="w-4 h-4 rounded-full mr-1">
+                                        <span>李四</span>
+                                        <span class="school-tag ml-1">本校</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 悬赏任务5 -->
+                            <div class="card p-4 border-l-4 border-[#ff9500]">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="bounty-tag text-xs px-2 py-1 rounded">悬赏</span>
+                                    <span class="text-xs text-gray-500">明天截止</span>
+                                </div>
+                                <h3 class="font-semibold text-sm mb-2">听说烟院食堂新上架喷醋鸡架，烟职求带</h3>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-red-500 font-bold">¥5</span>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="用户头像" class="w-4 h-4 rounded-full mr-1">
+                                        <span>李四</span>
+                                        <span class="school-tag ml-1">外校（烟台职业技术学院）</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-bar">
+                    <div class="tab-item">
+                        <i class="fas fa-home tab-icon"></i>
+                        <span>首页</span>
+                    </div>
+                    <div class="tab-item">
+                        <i class="fas fa-box tab-icon"></i>
+                        <span>闲置</span>
+                    </div>
+                    <div class="publish-btn">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="tab-item active">
+                        <i class="fas fa-bullseye tab-icon"></i>
+                        <span>悬赏</span>
+                    </div>
+                    <div class="tab-item">
+                        <i class="far fa-user tab-icon"></i>
+                        <span>我的</span>
+                    </div>
+                </div>
+            </div>
+            <div class="interface-title">悬赏栏目</div>
+        </div>
+        
+        <!-- 问答页面 -->
+        <div>
+            <div class="phone-frame">
+                <div class="status-bar">
+                    <div class="time">14:28</div>
+                    <div class="status-icons flex space-x-1">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-three-quarters"></i>
+                    </div>
+                </div>
+                
+                <div class="content-area">
+                    <div id="qa-page" class="page active px-4 pt-4">
+                        <!-- 导航栏 -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center">
+                                <div class="font-semibold text-[#ff6b35]">中国农业大学</div>
+                                <i class="fas fa-chevron-down ml-1 text-[#ff6b35] text-xs"></i>
+                            </div>
+                            <div class="relative flex-1 mx-4">
+                                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" placeholder="搜索问题..." class="w-full bg-gray-100 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none">
+                            </div>
+                            <div class="relative">
+                                <i class="fas fa-plus text-xl text-gray-600"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- 分类标签 -->
+                        <div class="flex space-x-6 mb-4 border-b pb-2">
+                            <div class="text-gray-500">推荐</div>
+                            <div class="text-gray-500">闲置</div>
+                            <div class="text-gray-500">悬赏</div>
+                            <div class="font-semibold text-[#ff6b35] border-b-2 border-[#ff6b35] pb-1">问答</div>
+                        </div>
+                        
+                        <!-- 问答分类 -->
+                        <div class="flex overflow-x-auto space-x-4 mb-4 pb-2">
+                            <div class="bg-gray-100 px-3 py-1 rounded-full text-sm whitespace-nowrap">全部</div>
+                            <div class="bg-[#ff6b35] text-white px-3 py-1 rounded-full text-sm whitespace-nowrap">学习考试</div>
+                            <div class="bg-gray-100 px-3 py-1 rounded-full text-sm whitespace-nowrap">校园生活</div>
+                            <div class="bg-gray-100 px-3 py-1 rounded-full text-sm whitespace-nowrap">实习就业</div>
+                            <div class="bg-gray-100 px-3 py-1 rounded-full text-sm whitespace-nowrap">考研保研</div>
+                        </div>
+                        
+                        <!-- 问答流 -->
+                        <div class="space-y-4">
+                            <!-- 问题1 -->
+                            <div class="card p-4 border-l-4 border-[#4ecdc4]">
+                                <span class="qa-tag text-xs px-2 py-1 rounded mb-2 inline-block">问答</span>
+                                <h3 class="font-semibold text-sm mb-2">传播学专业大二选课求推荐，哪门课比较水？</h3>
+                                <p class="text-xs text-gray-600 mb-3">下学期想选一些轻松的课程，求学长学姐推荐！</p>
+                                <div class="flex justify-between items-center text-xs text-gray-500">
+                                    <div class="flex items-center">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="用户头像" class="w-4 h-4 rounded-full mr-1">
+                                        <span>小张</span>
+                                        <span class="school-tag ml-1">本校</span>
+                                    </div>
+                                    <span>12回答</span>
+                                </div>
+                            </div>
+                            
+                            <!-- 问题2 -->
+                            <div class="card p-4 border-l-4 border-[#4ecdc4]">
+                                <span class="qa-tag text-xs px-2 py-1 rounded mb-2 inline-block">问答</span>
+                                <h3 class="font-semibold text-sm mb-2">农大东校区附近有什么好吃的餐厅推荐？</h3>
+                                <p class="text-xs text-gray-600 mb-3">周末想和朋友聚餐，求推荐性价比高的餐厅！</p>
+                                <div class="flex justify-between items-center text-xs text-gray-500">
+                                    <div class="flex items-center">
+                                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="用户头像" class="w-4 h-4 rounded-full mr-1">
+                                        <span>李同学</span>
+                                        <span class="school-tag ml-1">本校</span>
+                                    </div>
+                                    <span>8回答</span>
+                                </div>
+                            </div>
+                            
+                            <!-- 问题3 -->
+                            <div class="card p-4 border-l-4 border-[#4ecdc4]">
+                                <span class="qa-tag text-xs px-2 py-1 rounded mb-2 inline-block">问答</span>
+                                <h3 class="font-semibold text-sm mb-2">有没有传播学的同学一起组队参加大学生广告艺术大赛？</h3>
+                                <p class="text-xs text-gray-600 mb-3">我擅长文案和策划，需要会设计和视频剪辑的同学！</p>
+                                <div class="flex justify-between items-center text-xs text-gray-500">
+                                    <div class="flex items-center">
+                                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="用户头像" class="w-4 h-4 rounded-full mr-1">
+                                        <span>张三</span>
+                                        <span class="school-tag ml-1">本校</span>
+                                    </div>
+                                    <span>5回答</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-bar">
+                    <div class="tab-item">
+                        <i class="fas fa-home tab-icon"></i>
+                        <span>首页</span>
+                    </div>
+                    <div class="tab-item">
+                        <i class="fas fa-box tab-icon"></i>
+                        <span>闲置</span>
+                    </div>
+                    <div class="publish-btn">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="tab-item">
+                        <i class="fas fa-bullseye tab-icon"></i>
+                        <span>悬赏</span>
+                    </div>
+                    <div class="tab-item active">
+                        <i class="fas fa-question-circle tab-icon"></i>
+                        <span>问答</span>
+                    </div>
+                </div>
+            </div>
+            <div class="interface-title">问答栏目</div>
+        </div>
+    </div>
+
+    <div class="mt-8 text-center text-gray-600 max-w-3xl">
+        <h2 class="text-xl font-bold mb-4">换换 - 中国农业大学版本特色</h2>
+        <div class="grid grid-cols-2 gap-4 text-left">
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="font-semibold text-[#ff6b35] mb-2"><i class="fas fa-check-circle mr-2"></i>校园认证</h3>
+                <p class="text-sm">所有用户均需通过中国农业大学身份验证，确保交易安全可靠</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="font-semibold text-[#ff6b35] mb-2"><i class="fas fa-check-circle mr-2"></i>多元功能</h3>
+                <p class="text-sm">集二手交易、悬赏跑腿、校园问答于一体的综合性平台</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="font-semibold text-[#ff6b35] mb-2"><i class="fas fa-check-circle mr-2"></i>社交互动</h3>
+                <p class="text-sm">小红书式信息流，增强用户互动与内容分享</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="font-semibold text-[#ff6b35] mb-2"><i class="fas fa-check-circle mr-2"></i>便捷交易</h3>
+                <p class="text-sm">校内面对面交易，省去快递费用与等待时间</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 模拟当前时间
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.querySelectorAll('.time').forEach(el => {
+                el.textContent = `${hours}:${minutes}`;
+            });
+        }
+        
+        updateTime();
+        setInterval(updateTime, 60000);
+    </script>
+</body>
+</html>
